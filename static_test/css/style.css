@@ -26,7 +26,7 @@ body {
 	
 	background : white;
 	
-	border: 15px solid black;
+	border: 30px solid black;
 }
 
 .title {
@@ -85,6 +85,8 @@ body {
 }
 
 .list-entry li {
+  position: relative;
+  
   display: inline-block;
   
   margin : 2px;
@@ -96,4 +98,28 @@ body {
 	background: black;
 	
 	list-style : none;
+}
+
+.list-entry li .pop-up {
+  position : absolute;
+  display : block;
+  visibility: hidden;
+  z-index : 1;
+  
+  padding : 10px;
+  
+  left: 50px;
+  width: 150px;
+  
+  background: white;
+  
+  border: 5px solid black;
+}
+
+.list-entry li .pop-up .pop-up-text {
+  font-size : 12px;
+}
+
+.list-entry li:hover .pop-up {
+  visibility: visible;
 }
