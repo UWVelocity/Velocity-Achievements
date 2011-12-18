@@ -95,21 +95,31 @@ body {
 	width: 50px;
 	height: 50px;
 	
-	background: black;
+	background: white;
 	
 	list-style : none;
+	
+	border: 5px solid black;
+}
+
+.list-entry li img {
+  position : absolute;
+  display : block;
+  
+  width: 50px;
+  height: 50px;
 }
 
 .list-entry li .pop-up {
   position : absolute;
   display : block;
   visibility: hidden;
-  z-index : 1;
   
-  padding : 10px;
+  padding : 10px 10px 10px 60px;
   
-  left: 50px;
-  width: 150px;
+  left: -5px;
+  top: -5px;
+  width: 100px;
   
   background: white;
   
@@ -120,6 +130,11 @@ body {
   font-size : 12px;
 }
 
+.list-entry li:hover img {
+  z-index : 2;
+}
+
 .list-entry li:hover .pop-up {
   visibility: visible;
+  z-index : 1;
 }
