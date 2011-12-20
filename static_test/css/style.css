@@ -14,19 +14,24 @@ body {
   margin : 0;
   padding : 0;
 
-  background: white;
+  background-image : url('../img/background.png');
+  background-repeat : repeat;
 }
 
 #all {
   position : relative;
   
-	margin : 0 auto;
+	margin : 10px auto;
 	padding : 10px;
 	width : 800px;
 	
 	background : white;
 	
 	border: 30px solid black;
+	
+	-moz-box-shadow: 4px 4px 4px #555;
+  -webkit-box-shadow: 4px 4px 4px #555;
+  box-shadow: 4px 4px 4px #555;
 }
 
 .title {
@@ -115,11 +120,11 @@ body {
   display : block;
   visibility: hidden;
   
-  padding : 10px 10px 10px 60px;
+  padding : 3px 10px 4px 60px;
   
   left: -5px;
   top: -5px;
-  width: 100px;
+  width: 175px;
   
   background: white;
   
@@ -137,4 +142,47 @@ body {
 .list-entry li:hover .pop-up {
   visibility: visible;
   z-index : 1;
+}
+
+.sign-up {
+  position : relative;
+  
+	margin : 30px 0;
+	padding : 0 20px;
+	width : 760px;
+	
+	font-family : 'Portal', sans-serif;
+	font-size : 24px;
+	text-transform : uppercase;
+}
+
+.sign-up td {
+  font-family : 'Portal', sans-serif;
+	font-size : 24px;
+	text-transform : uppercase;
+}
+
+.sign-up input {
+  background-color : white;
+  border : none;
+  font-size : 18px;
+  
+  border: 2px solid black;
+}
+
+.sign-up .button input {
+  padding : 0;
+  margin : 0;
+  
+  background-color : white;
+  border : none;
+  font-size : 18px;
+  
+  width : 100px;
+  
+  border : 2px solid black;
+  
+  font-family : 'Portal', sans-serif;
+	font-size : 24px;
+	text-transform : uppercase;
 }
