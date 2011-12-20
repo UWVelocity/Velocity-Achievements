@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db.models.signals import pre_save
 from django.db import models
 from django.dispatch import receiver
@@ -10,6 +11,17 @@ class Achievement(models.Model):
     description = models.CharField(max_length = 1024)
 
     svg_file = models.FileField(upload_to = "achievements")
+
+    def thumbnail(self, width, height):
+        render, created = self.render_set.get_or_create(width=width, height=height)
+        return render
+
+    @property
+    def default_thumbnail(self):
+        return self.thumbnail(100,100)
+
+    def __unicode__(self):
+        return self.name
 
 class Render(models.Model):
     achievement = models.ForeignKey(Achievement)
@@ -34,3 +46,25 @@ def generate(instance, **kwargs):
     if not instance.image:
         instance.generate_image()
 
+class Participant(User):
+    @property
+    def achievements(self):
+        return Achievement.objects.filter(grant__participant = self).order_by("-grant__granted")
+
+    @property
+    def name(self):
+        return "%s %s" % (self.first_name, self.last_name)
+
+    def __unicode__(self):
+        return self.name
+
+class Grant(models.Model):
+    achievement = models.ForeignKey(Achievement)
+    participant = models.ForeignKey(Participant)
+    granted = models.DateTimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return "Grant %s to %s on %s" % (self.achievement_id, self.participant_id, self.granted)
+
+    class Meta:
+        unique_together = ('achievement', 'participant')

@@ -1,0 +1,35 @@
+<html>
+<head>
+  <title>VELOCITY</title>
+  <link media="screen" type="text/css" href="/static/css/style.css" rel="stylesheet" />
+</head>
+<body>
+  <div id="all">
+    <div class="title">VELOCITY</div>
+    <div class="sub-title">TEST SUBJECTS</div>
+    <div class="list">
+      <ul>
+        {% for user in participants %}
+        <li>
+          <div class="list-entry">
+            {{ user.name }}
+            <ul>
+              {% for achievement in user.achievements %}
+              <li>
+                {% include 'render.html' with render=achievement.default_thumbnail only %}
+                <div class="pop-up">
+                  {{ achievement.name }}
+                  <div class="pop-up-text">
+                    {{ achievement.description }}
+                  </div>
+                </div>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</body>

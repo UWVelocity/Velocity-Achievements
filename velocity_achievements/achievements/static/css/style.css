@@ -1,0 +1,140 @@
+/*
+ * Tags
+ * style.css
+ */
+ 
+@font-face {
+  font-family: Portal;
+  src: url('/static/fonts/OpenDinSchriftenEngshrift.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+ 
+body {
+  margin : 0;
+  padding : 0;
+
+  background: white;
+}
+
+#all {
+  position : relative;
+  
+	margin : 0 auto;
+	padding : 10px;
+	width : 800px;
+	
+	background : white;
+	
+	border: 30px solid black;
+}
+
+.title {
+  position : relative;
+  
+	margin : 0;
+	padding : 0 20px;
+	width : 760px;
+	
+	font-family : 'Portal', sans-serif;
+	font-size : 164px;
+}
+
+.sub-title {
+  position : relative;
+  
+	margin : 0;
+	padding : 0 20px;
+	width : 760px;
+	
+	font-family : 'Portal', sans-serif;
+	font-size : 72px;
+}
+
+.list {
+  position : relative;
+  
+	margin : 30px 0;
+	padding : 0 20px;
+	width : 760px;
+}
+
+.list ul {
+  margin : 0;
+	padding : 0;
+	
+  list-style : none;
+}
+
+.list-entry {
+  margin : 10px 0;
+	padding : 0;
+	
+	font-family : 'Portal', sans-serif;
+	font-size : 24px;
+	text-transform : uppercase;
+}
+
+.list-entry ul {
+  display : block;
+  
+  margin : 0;
+	padding : 0;
+	
+	list-style : none;
+}
+
+.list-entry li {
+  position: relative;
+  
+  display: inline-block;
+  
+  margin : 2px;
+	padding : 0;
+	
+	width: 50px;
+	height: 50px;
+	
+	background: white;
+	
+	list-style : none;
+	
+	border: 5px solid black;
+}
+
+.list-entry li img {
+  position : absolute;
+  display : block;
+  
+  width: 50px;
+  height: 50px;
+}
+
+.list-entry li .pop-up {
+  position : absolute;
+  display : block;
+  visibility: hidden;
+  
+  padding : 10px 10px 10px 60px;
+  
+  left: -5px;
+  top: -5px;
+  width: 100px;
+  
+  background: white;
+  
+  border: 5px solid black;
+}
+
+.list-entry li .pop-up .pop-up-text {
+  font-size : 12px;
+}
+
+.list-entry li:hover img {
+  z-index : 2;
+}
+
+.list-entry li:hover .pop-up {
+  visibility: visible;
+  z-index : 1;
+}
