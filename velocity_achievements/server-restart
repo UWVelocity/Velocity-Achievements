@@ -1,0 +1,13 @@
+#!/bin/bash
+
+PIDFILE=/tmp/django-flup.pid
+
+sudo service nginx stop
+kill `cat $PIDFILE`
+git fetch
+git pull --ff -v
+./manage.py syncdb
+./manage.py migrate
+echo "yes" | ./manage.py collectstatic
+./manage.py runfcgi host=127.0.0.1 port=8080 pidfile=$PIDFILE
+sudo service nginx start
