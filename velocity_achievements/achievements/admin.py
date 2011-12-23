@@ -1,6 +1,16 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.forms import UserChangeForm
 from models import Achievement, Participant, Grant
 
 admin.site.register(Achievement)
-admin.site.register(Participant)
+
+class ParticipantChangeForm(UserChangeForm):
+    class Meta:
+        model = Participant
+
+class ParticipantAdmin(UserAdmin):
+    pass
+
+admin.site.register(Participant, ParticipantAdmin)
 admin.site.register(Grant)
