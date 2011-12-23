@@ -9,6 +9,13 @@
   font-weight: normal;
   font-style: normal;
 }
+
+@font-face {
+  font-family: SubPortal;
+  src: url('../fonts/LeagueGothic.otf');
+  font-weight: normal;
+  font-style: normal;
+}
  
 body {
   margin : 0;
@@ -132,6 +139,7 @@ body {
 }
 
 .list-entry li .pop-up .pop-up-text {
+  font-family : 'SubPortal', sans-serif;
   font-size : 12px;
 }
 
