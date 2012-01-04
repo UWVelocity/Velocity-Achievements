@@ -6,6 +6,21 @@ from convert import svg_to_png
 import django.core.files.base as files
 import tempfile
 
+def on_change(model, field_name):
+    def callback(function):
+        @receiver(pre_save, sender=model)
+        def check(instance, **kwargs):
+            try:
+                old = model.objects.get(pk=instance.pk)
+                old_value = getattr(old, field_name)
+                new_value = getattr(instance, field_name)
+                if old_value != new_value:
+                    function(instance=instance, old_value=old_value, new_value=new_value)
+            except model.DoesNotExist:
+                pass
+        return check
+    return callback
+
 class Achievement(models.Model):
     name = models.CharField(max_length = 128)
     description = models.CharField(max_length = 1024)
@@ -22,6 +37,10 @@ class Achievement(models.Model):
 
     def __unicode__(self):
         return self.name
+
+@on_change(Achievement, 'svg_file')
+def reset_renders(instance, **kwargs):
+    instance.render_set.all().delete()
 
 class Render(models.Model):
     achievement = models.ForeignKey(Achievement)
