@@ -61,7 +61,7 @@ class UserWithEmail(User):
     def send_activation_email(self, email, primary):
         self.is_active = False
         self.save()
-        email_address = EmailAddress.objects.create(user = self, email = email, primary = primary)
+        email_address, created = EmailAddress.objects.get_or_create(email = email, defaults = dict(primary = primary, user = self))
         activation_email = ActivationEmail.objects.create(email = email_address, user = self)
         activation_email.send_activation()
 
