@@ -76,6 +76,11 @@ class PasswordInitialSetForm(forms.Form):
         user.save()
         return user
 
+class SignupForm(forms.Form):
+    first_name = forms.CharField()
+    last_name = forms.CharField()
+    email = forms.EmailField()
+
 """
 class PasswordResetRequestForm(forms.Form):
     email = forms.ModelChoiceField(label=_(u'your email address'), queryset=EmailAddress.objects.all())
