@@ -38,8 +38,8 @@ def random_username(character_set = (string.ascii_letters + string.digits)):
 
 class UserWithEmailManager(UserManager):
     @nested_commit_on_success
-    def create_user(self, email, password = None):
-        user = self.create(username = random_username(), email = email)
+    def create_user(self, email, password = None, **kwargs):
+        user = self.create(username = random_username(), email = email, **kwargs)
         user.set_password(password)
         user.send_activation_email(email, True)
         return user
