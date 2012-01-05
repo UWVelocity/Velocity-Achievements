@@ -1,1 +1,1 @@
-You earned your first point at {{site.name}}!
+Signed Up
