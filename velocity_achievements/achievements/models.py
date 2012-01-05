@@ -4,7 +4,7 @@ from django.db import models
 from django.dispatch import receiver
 from convert import svg_to_png
 import django.core.files.base as files
-from emailauth.models import UserWithEmail
+from emailauth.models import UserWithEmail, UserWithEmailManager
 import tempfile
 
 def on_change(model, field_name):
@@ -66,7 +66,12 @@ def generate(instance, **kwargs):
     if not instance.image:
         instance.generate_image()
 
+class ParticipantManager(UserWithEmailManager):
+    pass
+
 class Participant(UserWithEmail):
+    objects = ParticipantManager()
+
     @property
     def achievements(self):
         return Achievement.objects.filter(grant__participant = self).order_by("-grant__granted")
