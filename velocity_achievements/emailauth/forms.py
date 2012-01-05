@@ -65,7 +65,7 @@ class PasswordInitialSetForm(forms.Form):
             raise forms.ValidationError(_("The two password fields did not match."))
         return password2
 
-    def save(self, commit=True):
+    def save(self):
         activation = self.cleaned_data['token']
         user = activation.user
         password = self.cleaned_data["password"]
