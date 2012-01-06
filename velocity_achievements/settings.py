@@ -102,6 +102,10 @@ INSTALLED_APPS = (
     'south',
 )
 
+AUTHENTICATION_BACKENDS = (
+    'achievements.backends.ParticipantBackend',
+)
+
 try:
     from local_settings import *
 except ImportError:
