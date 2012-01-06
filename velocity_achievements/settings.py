@@ -103,6 +103,7 @@ INSTALLED_APPS = (
 )
 
 AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
     'achievements.backends.ParticipantBackend',
 )
 
