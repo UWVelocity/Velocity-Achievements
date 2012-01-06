@@ -13,6 +13,7 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^', include('achievements.urls')),
+    url(r'^', include('emailauth.urls')),
 )
 
 if settings.DEBUG:
