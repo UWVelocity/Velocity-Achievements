@@ -106,6 +106,8 @@ AUTHENTICATION_BACKENDS = (
     'achievements.backends.ParticipantBackend',
 )
 
+LOGIN_REDIRECT_URL = "/"
+
 try:
     from local_settings import *
 except ImportError:
