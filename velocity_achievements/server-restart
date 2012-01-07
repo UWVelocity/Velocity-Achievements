@@ -4,6 +4,7 @@ PIDFILE=/tmp/django-flup.pid
 
 sudo service nginx stop
 kill `cat $PIDFILE`
+find . -iname '*.pyc' -exec rm {} \;
 git fetch
 git pull --ff -v
 ./manage.py syncdb
