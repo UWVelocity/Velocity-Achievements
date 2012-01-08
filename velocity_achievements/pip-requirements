@@ -1,2 +1,2 @@
 south
-django-email-services
+hg+http://bitbucket.org/pagles/django-email-services#egg=django-email-services
