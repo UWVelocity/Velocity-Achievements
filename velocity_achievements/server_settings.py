@@ -46,7 +46,12 @@ LOGGING = {
         'mail_admins': {
             'level': 'ERROR',
             'class': 'django.utils.log.AdminEmailHandler'
-        }
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'debug.log'
+        },
     },
     'loggers': {
         'django.request': {
@@ -54,7 +59,11 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
-    }
+        'django': {
+            'level': 'DEBUG',
+            'handlers': ['file'],
+        },
+    },
 }
 
 EMAIL_BACKEND = 'email_services.backends.PostmarkEmailBackend'
