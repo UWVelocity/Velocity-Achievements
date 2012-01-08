@@ -25,7 +25,7 @@ def signup(request, template_name='emailauth/signup.html', user_class=UserWithEm
         form = SignupForm(request.POST)
         if form.is_valid():
             user_class.objects.create_user(**form.cleaned_data)
-            redirect('will_notify')
+            return redirect('will_notify')
     else:
         form = SignupForm()
     return render_to_response(template_name, {'form': form}, context_instance=RequestContext(request))
