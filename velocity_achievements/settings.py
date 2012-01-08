@@ -102,6 +102,7 @@ INSTALLED_APPS = (
     'emailauth',
     # third-party stuff
     'south',
+    'email_services',
 )
 
 AUTHENTICATION_BACKENDS = (
