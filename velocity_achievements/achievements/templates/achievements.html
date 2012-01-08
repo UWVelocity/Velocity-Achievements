@@ -2,7 +2,7 @@
 {% block title %}VELOCITY{% endblock %}
 {% block content %}
   {% if user.is_authenticated %}
-    <p>Logged in as {{ user.primary_email.email }} <a href="{% url logout next_page=request.get_full_path %}">Logout</a></p>
+    <p>Logged in as {{ user.primary_email.email }} <a href="{% url logout %}?next={{ request.get_full_path }}">Logout</a></p>
   {% else %}
     <p>
       <a href="{% url login %}">Log in</a> or
