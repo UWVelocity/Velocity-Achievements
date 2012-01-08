@@ -1,14 +1,16 @@
 #!/bin/bash
 
-PIDFILE=/tmp/django-flup.pid
+PIDFILE="$(pwd)/django-flup.pid"
+SOCKETFILE="$(pwd)/django.sock"
 
 sudo service nginx stop
 kill `cat $PIDFILE`
 find . -iname '*.pyc' -exec rm {} \;
 git fetch
 git pull --ff -v
+sudo pip install -r pip-requirements
 ./manage.py syncdb
 ./manage.py migrate
 echo "yes" | ./manage.py collectstatic
-./manage.py runfcgi host=127.0.0.1 port=8080 pidfile=$PIDFILE
+sg velocity_achievements_web "./manage.py runfcgi socket=$SOCKETFILE pidfile=$PIDFILE umask=0002 debug=True outlog=/tmp/django.out errlog=/tmp/django.err"
 sudo service nginx start
