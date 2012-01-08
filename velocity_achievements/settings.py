@@ -45,6 +45,8 @@ STATIC_URL = '/static/'
 # Examples: "http://foo.com/static/admin/", "/static/admin/".
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 
+DEFAULT_FROM_EMAIL = 'GLaDOS@velocitythegame.com'
+
 # Additional locations of static files
 STATICFILES_DIRS = (
     os.path.join(ROOT_PATH, "static"),
