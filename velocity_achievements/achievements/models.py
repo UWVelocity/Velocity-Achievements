@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.db.models.signals import pre_save
 from django.db import models
 from django.dispatch import receiver
@@ -83,6 +84,23 @@ class Participant(UserWithEmail):
     def __unicode__(self):
         return self.name
 
+class Nomination(models.Model):
+    achievement = models.ForeignKey(Achievement)
+    participant = models.ForeignKey(Participant)
+    nominator = models.ForeignKey(Participant, related_name='+')
+
+    def clean(self):
+        if self.participant == self.nominator:
+            raise ValidationError("Cannot nominate self.")
+        if Grant.objects.filter(achievement = self.achievement, participant = self.participant):
+            raise ValidationError("This person has already been given this achievement.")
+        if Nomination.objects.filter(achievement = self.achievement, participant = self.participant, nominator = self.nominator).exclude(pk = self.pk).exists():
+            raise ValidationError("Already nominated this person for this achievement.")
+        return super(Nomination, self).clean()
+
+    class Meta:
+        unique_together = ('achievement', 'participant', 'nominator',)
+
 class Grant(models.Model):
     achievement = models.ForeignKey(Achievement)
     participant = models.ForeignKey(Participant)
@@ -90,6 +108,10 @@ class Grant(models.Model):
 
     def __unicode__(self):
         return "Grant %s to %s on %s" % (self.achievement_id, self.participant_id, self.granted)
+
+    @property
+    def nominated_by(self):
+        return Participant.objects.filter(nomination__achievement = self.achievement, nomination__participant = self.participant)
 
     class Meta:
         unique_together = ('achievement', 'participant')
