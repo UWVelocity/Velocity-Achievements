@@ -2,4 +2,11 @@
 {% block title %}Sign Up{% endblock %}
 {% block content %}
 <p>An email has been sent to activate your account.</p>
+<script>
+$(function(){
+    setTimeout(function(){
+        window.location = "{% url achievements %}"
+    }, 5000);
+});
+</script>
 {% endblock %}
