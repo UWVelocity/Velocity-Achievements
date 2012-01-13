@@ -10,8 +10,16 @@ class ParticipantChangeForm(UserChangeForm):
         model = Participant
 
 class ParticipantAdmin(UserAdmin):
-    pass
+    form = ParticipantChangeForm
 
 admin.site.register(Participant, ParticipantAdmin)
-admin.site.register(Grant)
-admin.site.register(Nomination)
+
+class GrantAdmin(admin.ModelAdmin):
+    list_display = ('achievement', 'participant', 'granted',)
+
+admin.site.register(Grant, GrantAdmin)
+
+class NominationAdmin(admin.ModelAdmin):
+    list_display = ('achievement', 'participant', 'nominator',)
+
+admin.site.register(Nomination, NominationAdmin)
