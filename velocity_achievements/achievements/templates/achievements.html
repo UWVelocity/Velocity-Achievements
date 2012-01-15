@@ -26,7 +26,7 @@
               </li>
               {% endfor %}
               <li>
-              <a class="icon" href="{% url nominate %}">
+              <a class="icon" href="{% url nominate participant_id=user.pk %}">
                     <img src="static/img/nominate.png" width="100px" height="100px" />
                     <div class="pop-up">
                       Nominate

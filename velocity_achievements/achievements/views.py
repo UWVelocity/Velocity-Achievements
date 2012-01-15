@@ -23,13 +23,17 @@ class NominateForm(ModelForm):
                 }
 
 @login_required
-def nominate(request):
+def nominate(request, participant_id = None):
     nomination = Nomination(nominator = request.user)
+    initial = {}
+    participant = Participant.objects.filter(pk = participant_id)
+    if participant:
+        initial['participant'] = participant.get()
     if request.method == 'POST':
-        form = NominateForm(request.POST, instance = nomination)
+        form = NominateForm(request.POST, instance = nomination, initial = initial)
         if form.is_valid():
             nomination = form.save()
             return redirect(achievements)
     else:
-        form = NominateForm(instance = nomination)
+        form = NominateForm(instance = nomination, initial = initial)
     return render_to_response('nominate.html', {'form': form}, context_instance=RequestContext(request))

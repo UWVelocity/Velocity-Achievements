@@ -5,6 +5,6 @@ from emailauth.views import signup
 
 urlpatterns = patterns('',
     url(r'^$', achievements, name='achievements'),
-    url(r'^nominate/$', nominate, name='nominate'),
+    url(r'^nominate/(?:(?P<participant_id>.+)/)?$', nominate, name='nominate'),
     url(r'^signup/$', signup, name='signup', kwargs={'user_class': Participant})
 )
