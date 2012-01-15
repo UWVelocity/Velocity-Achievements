@@ -7,7 +7,7 @@ from django.template import RequestContext
 from models import Participant, Nomination
 
 def achievements(request):
-    participants = Participant.objects.annotate(num_grants=Count('grant')).filter(num_grants__gt = 0).order_by('-num_grants')
+    participants = Participant.objects.annotate(num_grants=Count('grant')).order_by('-num_grants')
     return render_to_response('achievements.html', {'participants': participants}, context_instance=RequestContext(request))
 
 class NominateForm(ModelForm):
