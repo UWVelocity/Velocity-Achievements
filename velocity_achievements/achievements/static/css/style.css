@@ -156,7 +156,7 @@ body {
 	list-style : none;
 }
 
-.list-entry li {
+.list-entry li .icon {
   position: relative;
   
   display: inline-block;
@@ -174,7 +174,7 @@ body {
 	border: 5px solid black;
 }
 
-.list-entry li img {
+.list-entry li .icon img {
   position : absolute;
   display : block;
   
@@ -182,7 +182,7 @@ body {
   height: 50px;
 }
 
-.list-entry li .pop-up {
+.list-entry li .icon .pop-up {
   position : absolute;
   display : block;
   visibility: hidden;
@@ -198,16 +198,16 @@ body {
   border: 5px solid black;
 }
 
-.list-entry li .pop-up .pop-up-text {
+.list-entry li .icon .pop-up .pop-up-text {
   font-family : 'SubPortal', sans-serif;
   font-size : 12px;
 }
 
-.list-entry li:hover img {
+.list-entry li .icon:hover img {
   z-index : 2;
 }
 
-.list-entry li:hover .pop-up {
+.list-entry li .icon:hover .pop-up {
   visibility: visible;
   z-index : 1;
 }
@@ -223,21 +223,21 @@ body {
 	font-size : 24px;
 	text-transform : uppercase;
 }
-
+    
 .sign-up td {
   font-family : 'Portal', sans-serif;
 	font-size : 24px;
 	text-transform : uppercase;
 }
 
-.sign-up td ul {
+.sign-up td ul.errorlist {
     margin : 0;
     padding : 0;
     
     list-style-type: none;
 }
 
-.sign-up td li {
+.sign-up td ul.errorlist li {
     margin : 0;
     padding : 0;
     

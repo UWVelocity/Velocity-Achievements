@@ -10,7 +10,31 @@
       {% csrf_token %}
       <input type="hidden" name="next" value="{{ next }}"/>
       <table border="0" cellspacing="0">
-        {{ form.as_table }}
+        <tr><td colspan="2">{{ form.non_field_errors }}</td></tr>
+        <tr><th><label for="id_participant">Participant: </label></th>
+            <td>{{ form.participant.errors }}
+                {{ form.participant }}</td></tr>
+        <tr><th><label for="id_achievement">Achievement: </label></th>
+            <td>{{ form.achievement.errors }}
+                <ul class="list-entry">
+                {% for achievement in form.fields.achievement.queryset %}
+                    <li>
+                        <input id="id_achievement_{{ forloop.index0 }}" type="radio"
+                            name="achievement" value="{{ achievement.pk }}">
+                        <div class="icon">
+                            </input>
+                            {% include 'render.html' with render=achievement.default_thumbnail only %}
+                            <div class="pop-up">
+                                {{ achievement.name }}
+                                <div class="pop-up-text">
+                                    {{ achievement.description }}
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+                </ul>
+            </td></tr>
         <tr>
           <td colspan="2" align="right">
             <div class="button">

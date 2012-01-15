@@ -27,12 +27,14 @@
             <ul>
               {% for achievement in user.achievements %}
               <li>
-                {% include 'render.html' with render=achievement.default_thumbnail only %}
-                <div class="pop-up">
-                  {{ achievement.name }}
-                  <div class="pop-up-text">
-                    {{ achievement.description }}
-                  </div>
+                <div class="icon">
+                    {% include 'render.html' with render=achievement.default_thumbnail only %}
+                    <div class="pop-up">
+                      {{ achievement.name }}
+                      <div class="pop-up-text">
+                        {{ achievement.description }}
+                      </div>
+                    </div>
                 </div>
               </li>
               {% endfor %}
