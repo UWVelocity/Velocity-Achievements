@@ -77,6 +77,30 @@ body {
     color : red;
 }
 
+#navigation {
+    position:absolute;
+    right: 0px;
+    top: 0px;
+    margin: 0px;
+    padding: 0px;
+    background-color: white;
+}
+
+#navigation li {
+    display: inline-block;
+    font-size: 30px;
+    font-family: 'Portal', sans-serif;
+    padding: 15px;
+    border-style: none none solid solid;
+    border-width: 1px;
+    border-color: #bbb;
+}
+
+#navigation li a {
+    color: black;
+    text-decoration: none;
+}
+
 .title {
   position : relative;
   
