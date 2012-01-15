@@ -18,6 +18,9 @@ class NominateForm(ModelForm):
     class Meta:
         model = Nomination
         exclude = ('nominator',)
+        widgets = {
+                'achievement': forms.RadioSelect()
+                }
 
 @login_required
 def nominate(request):
