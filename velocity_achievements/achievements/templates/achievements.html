@@ -1,19 +1,6 @@
 {% extends 'base.html' %} 
 {% block title %}VELOCITY{% endblock %}
 {% block content %}
-  <div id="user">
-  {% if user.is_authenticated %}
-    Welcome subject <span class="name">{{ user.name }}</span>.
-    <div class="sub-text">
-        Incorrectly identified? Please <a href="{% url logout %}?next={{ request.get_full_path }}">Leave</a> IMMEDIATELY.
-    </div>
-  {% else %}
-    <span class="unauth">WARNING: UNIDENTIFIED INDIVIDUAL.</span>
-    <div class="sub-text">
-        <a href="{% url login %}">Identify</a> yourself IMMEDIATELY or <a href="{% url signup %}">Sign-up</a> for testing.
-    </div>
-  {% endif %}
-  </div>
   {% include "navigation.html" %}
   <div id="all">
     <div class="title">VELOCITY</div>
@@ -36,6 +23,17 @@
                 </div>
               </li>
               {% endfor %}
+              <li>
+                <a href="/nominate.html">
+                    <img src="static/img/nominate.png" width="100px" height="100px" />
+                    <div class="pop-up">
+                      Nominate
+                      <div class="pop-up-text">
+                        Click to nominate subject for an award.
+                      </div>
+                    </div>
+                </a>
+              </li>
             </ul>
           </div>
         </li>
