@@ -175,10 +175,15 @@ body {
 	list-style : none;
 }
 
+.list-entry li {
+    display: inline-block;
+}
+
 .list-entry li .icon {
   position: relative;
   
   display: inline-block;
+  vertical-align: middle;
   
   margin : 2px;
 	padding : 0;

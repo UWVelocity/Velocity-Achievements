@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 {% block title %}Nominate{% endblock %}
+{% block scripts %}
+{{ block.super }}
+
+{% endblock %}
 {% block content %}
 {% include "navigation.html" %}
 <div id="all">
@@ -15,8 +19,8 @@
             <td>{{ form.participant.errors }}
                 {{ form.participant }}</td></tr>
         <tr><th><label for="id_achievement">Achievement: </label></th>
-            <td>{{ form.achievement.errors }}
-                <ul class="list-entry">
+            <td class="list-entry">{{ form.achievement.errors }}
+                <ul>
                 {% for achievement in form.fields.achievement.queryset %}
                     <li>
                         <input id="id_achievement_{{ forloop.index0 }}" type="radio"
