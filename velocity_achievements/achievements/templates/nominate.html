@@ -2,7 +2,15 @@
 {% block title %}Nominate{% endblock %}
 {% block scripts %}
 {{ block.super }}
-
+<script type="text/javascript">
+    $(function(){
+        $('.list-entry li').click(function(event){
+            var radio = $(event.target).parents('.list-entry li').children('input');
+            radio.prop('checked', true);
+            $('.list-entry li input').not(radio).removeProp('checked');
+        });
+    });
+</script>
 {% endblock %}
 {% block content %}
 {% include "navigation.html" %}
