@@ -1,11 +1,24 @@
 {% extends 'base.html' %}
 {% block title %}Nominate{% endblock %}
 {% block content %}
-<form method="post" action="{% url nominate %}">
-    {% csrf_token %}
-    <table>
+<div id="all">
+<div class="sub-title">NOMINATE PARTICIPANT</div>
+<div class="sign-up">
+  <center>
+    <form method="post" action="{% url nominate %}">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ next }}"/>
+      <table border="0" cellspacing="0">
         {{ form.as_table }}
-        <tr><td><input type="submit" value="Nominate"></input></td></tr>
-    </table>
-</form>
+        <tr>
+          <td colspan="2" align="right">
+            <div class="button">
+              <input type="submit" value="Nominate" />
+            </div>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </center>
+</div>
 {% endblock %}

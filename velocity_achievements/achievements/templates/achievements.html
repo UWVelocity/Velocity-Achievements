@@ -1,14 +1,19 @@
 {% extends 'base.html' %} 
 {% block title %}VELOCITY{% endblock %}
 {% block content %}
+  <div id="user">
   {% if user.is_authenticated %}
-    <p>Logged in as {{ user.primary_email.email }} <a href="{% url logout %}?next={{ request.get_full_path }}">Logout</a></p>
+    Welcome subject <span class="name">{{ user.name }}</span>.
+    <div class="sub-text">
+        Incorrectly identified? Please <a href="{% url logout %}?next={{ request.get_full_path }}">Leave</a> IMMEDIATELY.
+    </div>
   {% else %}
-    <p>
-      <a href="{% url login %}">Log in</a> or
-      <a href="{% url signup %}">Signup</a>
-    </p>
+    <span class="unauth">WARNING: UNIDENTIFIED INDIVIDUAL.</span>
+    <div class="sub-text">
+        <a href="{% url login %}">Identify</a> yourself IMMEDIATELY or <a href="{% url signup %}">Sign-up</a> for testing.
+    </div>
   {% endif %}
+  </div>
   <div id="all">
     <div class="title">VELOCITY</div>
     <div class="sub-title">TEST SUBJECTS</div>

@@ -28,7 +28,7 @@ body {
 #all {
   position : relative;
   
-	margin : 10px auto;
+	margin : 80px auto;
 	padding : 10px;
 	width : 800px;
 	
@@ -37,8 +37,44 @@ body {
 	border: 30px solid black;
 	
 	-moz-box-shadow: 4px 4px 4px #555;
-  -webkit-box-shadow: 4px 4px 4px #555;
-  box-shadow: 4px 4px 4px #555;
+    -webkit-box-shadow: 4px 4px 4px #555;
+    box-shadow: 4px 4px 4px #555;
+}
+
+#user {
+    position: absolute;
+    
+    margin : 0;
+    padding : 6px 14px;
+    
+    top: 0;
+    left: 25px;
+    
+    background: white;
+    
+    font-family : 'Portal', sans-serif;
+	font-size : 20px;
+    
+    -moz-box-shadow: 1px 1px 1px #bbb;
+    -webkit-box-shadow: 1px 1px 1px #bbb;
+    box-shadow: 1px 1px 1px #bbb;
+    
+    border-left: 1px solid #bbb;
+    border-right: 1px solid #bbb;
+    border-bottom: 1px solid #bbb;
+}
+
+#user .sub-text {
+    font-family : 'SubPortal', sans-serif;
+	font-size : 14px;
+}
+
+#user .name {
+    text-transform : uppercase;
+}
+
+#user .unauth {
+    color : red;
 }
 
 .title {
@@ -170,12 +206,38 @@ body {
 	text-transform : uppercase;
 }
 
+.sign-up td ul {
+    margin : 0;
+    padding : 0;
+    
+    list-style-type: none;
+}
+
+.sign-up td li {
+    margin : 0;
+    padding : 0;
+    
+    color : red;
+    
+    font-family : 'Portal', sans-serif;
+	font-size : 24px;
+	text-transform : uppercase;
+}
+
 .sign-up input {
   background-color : white;
   border : none;
   font-size : 18px;
   
   border: 2px solid black;
+}
+
+.sign-up select {
+  background-color : white;
+  border : none;
+  font-size : 18px;
+  
+  border: 1px solid black;
 }
 
 .sign-up .button input {

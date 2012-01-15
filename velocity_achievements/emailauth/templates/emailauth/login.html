@@ -1,12 +1,24 @@
 {% extends 'base.html' %}
-{% block title %}Login{% endblock %}
+{% block title %}IDENTIFICATION{% endblock %}
 {% block content %}
-<form method="post" action="{% url login %}">
-    {% csrf_token %}
-    <input type="hidden" name="next" value="{{ next }}"/>
-    <table>
+<div id="all">
+<div class="sub-title">IDENTIFICATION</div>
+<div class="sign-up">
+  <center>
+    <form method="post" action="{% url login %}">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ next }}"/>
+      <table border="0" cellspacing="0">
         {{ form.as_table }}
-        <tr><td><input type="submit" value="login" /></td></tr>
-    </table>
-</form>
+        <tr>
+          <td colspan="2" align="right">
+            <div class="button">
+              <input type="submit" value="Login" />
+            </div>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </center>
+</div>
 {% endblock %}
