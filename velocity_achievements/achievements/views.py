@@ -29,7 +29,7 @@ def nominate(request):
         form = NominateForm(request.POST, instance = nomination)
         if form.is_valid():
             nomination = form.save()
-            redirect(nominate)
+            return redirect(achievements)
     else:
         form = NominateForm(instance = nomination)
     return render_to_response('nominate.html', {'form': form}, context_instance=RequestContext(request))
