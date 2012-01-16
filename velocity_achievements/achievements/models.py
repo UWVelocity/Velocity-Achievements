@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, post_save
 from django.db import models
 from django.dispatch import receiver
 from convert import svg_to_png
@@ -85,7 +85,7 @@ class Participant(UserWithEmail):
     def __unicode__(self):
         return self.name
 
-@receiver(pre_save, sender=Participant)
+@receiver(post_save, sender=Participant)
 def add_level1_achievement(instance, **kwargs):
     instance.grant_set.get_or_create(achievement = Achievement.objects.get(name = "LEVEL 1"))
 
