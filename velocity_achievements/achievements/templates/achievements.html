@@ -25,6 +25,7 @@
                 </div>
               </li>
               {% endfor %}
+              {% if not request.user or request.user != user %}
               <li>
               <a class="icon" href="{% url nominate participant_id=user.pk %}">
                     <img src="static/img/nominate.png" width="100px" height="100px" />
@@ -36,6 +37,7 @@
                     </div>
                 </a>
               </li>
+              {% endif %}
             </ul>
           </div>
         </li>
