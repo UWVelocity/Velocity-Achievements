@@ -7,7 +7,7 @@
         $('.list-entry li').click(function(event){
             var radio = $(event.target).parents('.list-entry li').children('input');
             radio.prop('checked', true);
-            $('.list-entry li input').not(radio).removeProp('checked');
+            $('.list-entry li input').not(radio).prop('checked', false);
         });
     });
 </script>
