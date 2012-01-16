@@ -72,6 +72,7 @@ class ParticipantManager(UserWithEmailManager):
 
 class Participant(UserWithEmail):
     objects = ParticipantManager()
+    achievements = models.ManyToManyField(Achievement, through='Grant')
 
     @property
     def achievements(self):
@@ -83,6 +84,10 @@ class Participant(UserWithEmail):
 
     def __unicode__(self):
         return self.name
+
+@receiver(pre_save, sender=Participant)
+def add_level1_achievement(instance, **kwargs):
+    instance.grant_set.get_or_create(achievement = Achievement.objects.get(name = "LEVEL 1"))
 
 class Nomination(models.Model):
     achievement = models.ForeignKey(Achievement)
