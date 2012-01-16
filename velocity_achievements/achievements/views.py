@@ -7,7 +7,7 @@ from django.template import RequestContext
 from models import Participant, Nomination, Achievement
 
 def achievements(request):
-    participants = Participant.objects.annotate(num_grants=Count('grant')).order_by('-num_grants')
+    participants = Participant.objects.filter(is_active=True).annotate(num_grants=Count('grant')).order_by('-num_grants')
     return render_to_response('achievements.html', {'participants': participants}, context_instance=RequestContext(request))
 
 class NominatePersonForm(ModelForm):
@@ -28,7 +28,7 @@ class NominatePersonForm(ModelForm):
 
 @login_required
 def nominate(request, participant_id):
-    nomination = Nomination(nominator = request.user, participant = get_object_or_404(Participant, pk=participant_id))
+    nomination = Nomination(nominator = request.user, participant = get_object_or_404(Participant, pk=participant_id, is_active=True))
     if request.method == 'POST':
         form = NominatePersonForm(request.POST, instance = nomination)
         if form.is_valid():
