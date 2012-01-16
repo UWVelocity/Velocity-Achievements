@@ -7,7 +7,7 @@
         $('.list-entry li').click(function(event){
             var radio = $(event.target).parents('.list-entry li').children('input');
             radio.prop('checked', true);
-            $('.list-entry li input').not(radio).removeProp('checked');
+            $('.list-entry li input').not(radio).prop('checked', false);
         });
     });
 </script>
@@ -18,14 +18,11 @@
 <div class="sub-title">NOMINATE PARTICIPANT</div>
 <div class="sign-up">
   <center>
-    <form method="post" action="{% url nominate %}">
+    <form method="post" action="{% url nominate participant_id=participant_id %}">
       {% csrf_token %}
       <input type="hidden" name="next" value="{{ next }}"/>
       <table border="0" cellspacing="0">
         <tr><td colspan="2">{{ form.non_field_errors }}</td></tr>
-        <tr><th><label for="id_participant">Participant: </label></th>
-            <td>{{ form.participant.errors }}
-                {{ form.participant }}</td></tr>
         <tr><th><label for="id_achievement">Achievement: </label></th>
             <td class="list-entry">{{ form.achievement.errors }}
                 <ul>
@@ -44,9 +41,12 @@
                             </div>
                         </div>
                     </li>
+                {% empty %}
+                    <li>You have nothing left to nominate this person for</li>
                 {% endfor %}
                 </ul>
             </td></tr>
+        {% if form.fields.achievement.queryset %}
         <tr>
           <td colspan="2" align="right">
             <div class="button">
@@ -54,6 +54,7 @@
             </div>
           </td>
         </tr>
+        {% endif %}
       </table>
     </form>
   </center>
