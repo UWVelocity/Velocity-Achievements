@@ -15,10 +15,10 @@
 {% block content %}
 {% include "navigation.html" %}
 <div id="all">
-<div class="sub-title">NOMINATE PARTICIPANT</div>
+<div class="sub-title">NOMINATE {{ participant|upper }}</div>
 <div class="sign-up">
   <center>
-    <form method="post" action="{% url nominate participant_id=participant_id %}">
+    <form method="post" action="{% url nominate participant_id=participant.pk %}">
       {% csrf_token %}
       <input type="hidden" name="next" value="{{ next }}"/>
       <table border="0" cellspacing="0">

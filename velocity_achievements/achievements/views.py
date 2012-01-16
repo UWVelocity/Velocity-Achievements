@@ -28,7 +28,8 @@ class NominatePersonForm(ModelForm):
 
 @login_required
 def nominate(request, participant_id):
-    nomination = Nomination(nominator = request.user, participant = get_object_or_404(Participant, pk=participant_id, is_active=True))
+    participant = get_object_or_404(Participant, pk=participant_id, is_active=True)
+    nomination = Nomination(nominator = request.user, participant=participant)
     if request.method == 'POST':
         form = NominatePersonForm(request.POST, instance = nomination)
         if form.is_valid():
@@ -36,4 +37,4 @@ def nominate(request, participant_id):
             return redirect(achievements)
     else:
         form = NominatePersonForm(instance = nomination)
-    return render_to_response('nominate.html', {'form': form, 'participant_id': participant_id}, context_instance=RequestContext(request))
+    return render_to_response('nominate.html', {'form': form, 'participant': participant}, context_instance=RequestContext(request))
