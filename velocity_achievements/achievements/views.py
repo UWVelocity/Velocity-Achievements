@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count
+from django.db.models import Count, Max
 from django import forms
 from django.forms import ModelForm
 from django.shortcuts import render_to_response, redirect, get_object_or_404
@@ -7,7 +7,7 @@ from django.template import RequestContext
 from models import Participant, Nomination, Achievement
 
 def achievements(request):
-    participants = Participant.objects.filter(is_active=True).annotate(num_grants=Count('grant')).order_by('-num_grants')
+    participants = Participant.objects.filter(is_active=True).annotate(num_grants=Count('grant'), time=Max('grant__granted')).order_by('-num_grants', '-time')
     return render_to_response('achievements.html', {'participants': participants}, context_instance=RequestContext(request))
 
 class NominatePersonForm(ModelForm):
