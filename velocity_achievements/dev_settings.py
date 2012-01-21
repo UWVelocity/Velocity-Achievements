@@ -1,6 +1,6 @@
 # Django settings for velocity_achievements project in development.
 import os.path
-ROOT_PATH =  os.path.abspath(os.path.curdir)
+ROOT_PATH =  os.path.abspath(os.path.dirname(__file__))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG

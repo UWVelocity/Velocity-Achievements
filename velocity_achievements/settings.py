@@ -1,6 +1,6 @@
 # Django settings for velocity_achievements project.
 import os.path
-ROOT_PATH =  os.path.abspath(os.path.curdir)
+ROOT_PATH =  os.path.abspath(os.path.dirname(__file__))
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
