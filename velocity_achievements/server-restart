@@ -7,7 +7,7 @@ sudo service nginx stop
 kill `cat $PIDFILE`
 find . -iname '*.pyc' -exec rm {} \;
 git fetch
-git pull --ff -v
+git pull --ff-only -v
 sudo pip install -r pip-requirements
 ./manage.py syncdb
 ./manage.py migrate
