@@ -1,7 +1,12 @@
 #!/bin/bash
 
-PIDFILE="$(pwd)/django-flup.pid"
-SOCKETFILE="$(pwd)/django.sock"
+RELATIVE_PATH="$(dirname $0)/../../"
+ROOT_PATH="$(readlink -f $RELATIVE_PATH)"
+
+PIDFILE="${ROOT_PATH}/django-flup.pid"
+SOCKETFILE="${ROOT_PATH}/django.sock"
+OUTLOG="${ROOT_PATH}/django.out"
+ERRLOG="${ROOT_PATH}/django.err"
 
 sudo service nginx stop
 kill `cat $PIDFILE`
@@ -12,5 +17,5 @@ sudo pip install -r pip-requirements
 ./manage.py syncdb
 ./manage.py migrate
 echo "yes" | ./manage.py collectstatic
-sg velocity_achievements_web "./manage.py runfcgi socket=$SOCKETFILE pidfile=$PIDFILE umask=0002 debug=True outlog=/tmp/django.out errlog=/tmp/django.err"
+sg velocity_achievements_web "./manage.py runfcgi socket=$SOCKETFILE pidfile=$PIDFILE umask=0002 debug=True outlog=$OUTLOG errlog=$ERRLOG"
 sudo service nginx start
