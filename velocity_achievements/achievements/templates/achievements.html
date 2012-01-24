@@ -1,5 +1,9 @@
 {% extends 'base.html' %} 
 {% block title %}VELOCITY{% endblock %}
+{% block scripts %}
+  {{ block.super }}
+  <script type="text/javascript" src="http://displays.velocity.com/js/autoscroll.js"></script>
+{% endblock %}
 {% block content %}
   {% include "navigation.html" %}
   <div id="all">
