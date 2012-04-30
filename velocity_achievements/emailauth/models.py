@@ -59,8 +59,6 @@ class UserWithEmail(User):
 
     @nested_commit_on_success
     def send_activation_email(self, email, primary):
-        self.is_active = False
-        self.save()
         email_address, created = EmailAddress.objects.get_or_create(email = email, defaults = dict(primary = primary, user = self))
         activation_email = ActivationEmail.objects.create(email = email_address, user = self)
         activation_email.send_activation()
@@ -102,7 +100,6 @@ class ActivationEmail(models.Model):
         if not self.valid:
             raise 
         self.email.user = self.user
-        self.user.active = True
         if password:
             self.user.set_password(password)
         self.user.save()
