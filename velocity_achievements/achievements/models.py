@@ -91,10 +91,14 @@ class Participant(UserWithEmail):
 def add_level1_achievement(instance, **kwargs):
     instance.grant_set.get_or_create(achievement = Achievement.objects.get(name = "LEVEL 1"))
 
+class Term(models.Model):
+    term = models.CharField(max_length=5, primary_key=True)
+
 class Nomination(models.Model):
     achievement = models.ForeignKey(Achievement)
     participant = models.ForeignKey(Participant)
     nominator = models.ForeignKey(Participant, related_name='+')
+    term = models.ForeignKey(Term, null=True, blank=True)
 
     def clean(self):
         super(Nomination, self).clean()
@@ -112,6 +116,7 @@ class Grant(models.Model):
     achievement = models.ForeignKey(Achievement)
     participant = models.ForeignKey(Participant)
     granted = models.DateTimeField(auto_now_add=True)
+    term = models.ForeignKey(Term,null=True,blank=True)
 
     def __unicode__(self):
         return "Grant %s to %s on %s" % (self.achievement_id, self.participant_id, self.granted)
