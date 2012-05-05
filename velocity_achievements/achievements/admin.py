@@ -3,7 +3,10 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserChangeForm
 from models import Achievement, Participant, Grant, Nomination, Term
 
-admin.site.register(Achievement)
+class AchievementAdmin(admin.ModelAdmin):
+    list_display = ('name', 'description', 'can_nominate',)
+
+admin.site.register(Achievement, AchievementAdmin)
 
 class ParticipantChangeForm(UserChangeForm):
     class Meta:
