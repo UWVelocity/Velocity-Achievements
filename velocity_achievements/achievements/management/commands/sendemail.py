@@ -20,6 +20,9 @@ class Command(NoArgsCommand):
         delta = datetime.timedelta(options['days'])
         grants = Grant.objects.filter(granted__gte = datetime.datetime.now() - delta)\
                 .order_by('achievement').select_related('achievement','participant')
+        if not grants:
+            self.stdout.write("No activity to summarize. Not sending anything\n")
+            return 0
         self.stdout.write("Going to summarize %d days of activity (%d events)\n" %
                 (delta.days, len(grants)))
         achievement_data = [{
