@@ -91,8 +91,14 @@ class Participant(UserWithEmail):
 def add_level1_achievement(instance, **kwargs):
     instance.grant_set.get_or_create(achievement = Achievement.objects.get(name = "LEVEL 1"))
 
+term_choices = tuple(
+        ('%s%s' % (term[0], year), '%s %s' % (term[1], year))
+            for year in xrange(2011,2020)
+            for term in (('W','Winter',), ('S','Spring',), ('F','Fall',))
+        )
+
 class Term(models.Model):
-    term = models.CharField(max_length=5, primary_key=True)
+    term = models.CharField(max_length=5, choices=term_choices, primary_key=True)
 
 class Nomination(models.Model):
     achievement = models.ForeignKey(Achievement)
