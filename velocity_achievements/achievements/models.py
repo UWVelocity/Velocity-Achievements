@@ -153,10 +153,11 @@ class Nomination(models.Model):
         super(Nomination, self).clean()
         if self.participant_id and self.participant_id == self.nominator_id:
             raise ValidationError("Cannot nominate self.")
-        if Grant.objects.filter(achievement__pk = self.achievement_id, participant__pk = self.participant_id):
-            raise ValidationError("This person has already been given this achievement.")
-        if Nomination.objects.filter(achievement__pk = self.achievement_id, participant__pk = self.participant_id, nominator__pk = self.nominator_id).exclude(pk = self.pk).exists():
-            raise ValidationError("Already nominated this person for this achievement.")
+        if Grant.objects.filter(achievement__pk = self.achievement_id,
+                participant__pk = self.participant_id, term = self.term):
+            raise ValidationError("This person has already been given this achievement this term.")
+        if Nomination.objects.filter(achievement__pk = self.achievement_id, participant__pk = self.participant_id, nominator__pk = self.nominator_id, term = self.term).exclude(pk = self.pk).exists():
+            raise ValidationError("Already nominated this person for this achievement this term.")
 
     class Meta:
         unique_together = ('achievement', 'participant', 'nominator','term',)
