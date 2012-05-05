@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.db.models.query import QuerySet
 from django.db.models.signals import pre_save, post_save
 from django.db import models
 from django.dispatch import receiver
@@ -7,6 +8,7 @@ from convert import svg_to_png
 import django.core.files.base as files
 from emailauth.models import UserWithEmail, UserWithEmailManager
 import tempfile
+import datetime
 
 def on_change(model, field_name):
     def callback(function):
@@ -97,11 +99,30 @@ term_choices = tuple(
             for term in (('W','Winter',), ('S','Spring',), ('F','Fall',))
         )
 
+class TermQuerySet(QuerySet):
+    def term_key_for_date(self,date):
+        t="WSF"[(date.month - 1)/4] # Math is magic
+        return t + str(date.year)
+    def for_date(self,date):
+        return self.filter(term=self.term_key_for_date(date))
+    def current(self):
+        return self.for_date(datetime.date.today())
+
+class TermManager(models.Manager):
+    def get_query_set(self):
+        return TermQuerySet(self.model)
+    def for_date(self,date):
+        return self.get_query_set().for_date(date)
+    def current(self):
+        return self.get_query_set().current()
+
 class Term(models.Model):
     term = models.CharField(max_length=5, choices=term_choices, primary_key=True)
 
     def __unicode__(self):
         return self.get_term_display()
+
+    objects = TermManager()
 
 class Nomination(models.Model):
     achievement = models.ForeignKey(Achievement)
