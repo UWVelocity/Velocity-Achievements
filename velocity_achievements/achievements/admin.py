@@ -14,6 +14,7 @@ class ParticipantChangeForm(UserChangeForm):
 
 class ParticipantAdmin(UserAdmin):
     form = ParticipantChangeForm
+    list_display = ('email', 'first_name', 'last_name', 'is_staff', 'is_active')
 
 admin.site.register(Participant, ParticipantAdmin)
 
