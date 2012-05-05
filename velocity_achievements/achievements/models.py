@@ -100,6 +100,9 @@ term_choices = tuple(
 class Term(models.Model):
     term = models.CharField(max_length=5, choices=term_choices, primary_key=True)
 
+    def __unicode__(self):
+        return self.get_term_display()
+
 class Nomination(models.Model):
     achievement = models.ForeignKey(Achievement)
     participant = models.ForeignKey(Participant)
