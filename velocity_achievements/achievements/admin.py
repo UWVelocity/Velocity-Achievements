@@ -19,12 +19,12 @@ class ParticipantAdmin(UserAdmin):
 admin.site.register(Participant, ParticipantAdmin)
 
 class GrantAdmin(admin.ModelAdmin):
-    list_display = ('achievement', 'participant', 'granted',)
+    list_display = ('achievement', 'participant', 'granted','term',)
 
 admin.site.register(Grant, GrantAdmin)
 
 class NominationAdmin(admin.ModelAdmin):
-    list_display = ('achievement', 'participant', 'nominator',)
+    list_display = ('achievement', 'participant', 'nominator','term',)
 
 admin.site.register(Nomination, NominationAdmin)
 
