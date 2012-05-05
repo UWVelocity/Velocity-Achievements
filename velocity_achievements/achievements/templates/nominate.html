@@ -29,9 +29,8 @@
                 {% for achievement in form.fields.achievement.queryset %}
                     <li>
                         <input id="id_achievement_{{ forloop.index0 }}" type="radio"
-                            name="achievement" value="{{ achievement.pk }}">
+                            name="achievement" value="{{ achievement.pk }}"></input>
                         <div class="icon">
-                            </input>
                             {% include 'render.html' with render=achievement.default_thumbnail only %}
                             <div class="pop-up">
                                 {{ achievement.name }}
