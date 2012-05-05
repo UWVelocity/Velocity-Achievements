@@ -30,9 +30,9 @@ class Command(NoArgsCommand):
                 'days': delta.days,
                 'grants': achievement_data
             })
-        email = EmailMessage('Velocity the Game Updates', 
-                message_body, 'GLaDOS@velocitythegame.com', [], 
-                Participant.objects.filter(is_active=True).values_list(
-                    'email', flat=True),)
-        email.send()
+        for email in Participant.objects.filter(is_active=True)\
+                .values_list('email', flat=True):
+            email = EmailMessage('Velocity the Game Updates',
+                    message_body, 'GLaDOS@velocitythegame.com', [email])
+            email.send()
 
