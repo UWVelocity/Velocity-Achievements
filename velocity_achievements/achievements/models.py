@@ -80,7 +80,9 @@ class Participant(UserWithEmail):
 
     @property
     def achievements(self):
-        return Achievement.objects.filter(grant__participant = self).order_by("-grant__granted")
+        return Achievement.objects.filter(grant__participant = self,
+                grant__term_id = Term.current_term_key()
+                ).order_by("-grant__granted")
 
     @property
     def name(self):
