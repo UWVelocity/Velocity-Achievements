@@ -12,6 +12,8 @@ def on_change(model, field_name):
     def callback(function):
         @receiver(pre_save, sender=model)
         def check(instance, **kwargs):
+            if kwargs.get('raw', False):
+                return
             try:
                 old = model.objects.get(pk=instance.pk)
                 old_value = getattr(old, field_name)
