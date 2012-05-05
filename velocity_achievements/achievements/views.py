@@ -32,7 +32,7 @@ class NominatePersonForm(ModelForm):
 
     class Meta:
         model = Nomination
-        exclude = ('nominator', 'participant')
+        exclude = ('nominator', 'participant', 'term')
         widgets = {
                 'achievement': forms.RadioSelect()
                 }
