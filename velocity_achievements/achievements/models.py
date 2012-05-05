@@ -159,6 +159,8 @@ class Nomination(models.Model):
     class Meta:
         unique_together = ('achievement', 'participant', 'nominator','term',)
 
+    objects = TermDependentManager()
+
 class Grant(models.Model):
     achievement = models.ForeignKey(Achievement)
     participant = models.ForeignKey(Participant)
@@ -174,3 +176,5 @@ class Grant(models.Model):
 
     class Meta:
         unique_together = ('achievement', 'participant','term',)
+
+    objects = TermDependentManager()
