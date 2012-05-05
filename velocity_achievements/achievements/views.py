@@ -32,7 +32,8 @@ class NominatePersonForm(ModelForm):
                 participant = self.instance.participant,
                 term = this_term)
         self.fields['achievement'] = forms.ModelChoiceField(\
-                queryset = Achievement.objects.exclude(\
+                queryset = Achievement.objects.filter(\
+                    can_nominate=True).exclude(\
                     grant__in = term_grants).exclude(\
                     nomination__in = term_user_nominations))
 
