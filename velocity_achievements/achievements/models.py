@@ -124,6 +124,10 @@ class Term(models.Model):
         t="WSF"[(date.month - 1)/4] # Math is magic
         return t + str(date.year)
 
+    @classmethod
+    def current_term_key(cls):
+        return cls.term_key_for_date(datetime.date.today())
+
     objects = TermManager()
 
 class Nomination(models.Model):
