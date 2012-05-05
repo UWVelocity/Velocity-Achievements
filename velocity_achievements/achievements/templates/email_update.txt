@@ -9,7 +9,7 @@
             {% for grant in grant_group.list|slice:':-2' %}
                 {{ grant.participant }},
             {% endfor %}
-            {% for grant in grant_group.list|slice:'-1:-2' %}
+            {% for grant in grant_group.list|slice:'-2:-1' %}
                 {{ grant.participant }} and
             {% endfor %}
             {% with grant=grant_group.list|last %}
