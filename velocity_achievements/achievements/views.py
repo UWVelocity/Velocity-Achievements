@@ -4,11 +4,19 @@ from django import forms
 from django.forms import ModelForm
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
-from models import Participant, Nomination, Achievement
+from models import Participant, Nomination, Achievement, Term
+import itertools
 
 def achievements(request):
-    participants = Participant.objects.filter(is_active=True).annotate(num_grants=Count('grant'), time=Max('grant__granted')).order_by('-num_grants', '-time')
-    return render_to_response('achievements.html', {'participants': participants}, context_instance=RequestContext(request))
+    current_term = Term.current_term_key()
+    active = Participant.objects.filter(is_active=True)
+    with_awards = active.filter(grant__term_id=current_term
+            ).annotate(num_grants=Count('grant'), time=Max('grant__granted')
+                    ).order_by('-num_grants', '-time')
+    without_awards = active.exclude(grant__term_id=current_term)
+    return render_to_response('achievements.html',
+            {'participants': itertools.chain(with_awards, without_awards)},
+            context_instance=RequestContext(request))
 
 class NominatePersonForm(ModelForm):
     def __init__(self, *args, **kwargs):
