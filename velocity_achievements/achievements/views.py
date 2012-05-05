@@ -14,8 +14,10 @@ def achievements(request):
             ).annotate(num_grants=Count('grant'), time=Max('grant__granted')
                     ).order_by('-num_grants', '-time')
     without_awards = active.exclude(grant__term_id=current_term)
+    hide_nominate_link = request.REQUEST.get('hide_nominate_links', False)
     return render_to_response('achievements.html',
-            {'participants': itertools.chain(with_awards, without_awards)},
+            {'participants': itertools.chain(with_awards, without_awards),
+                'show_nominate_link': not hide_nominate_link},
             context_instance=RequestContext(request))
 
 class NominatePersonForm(ModelForm):

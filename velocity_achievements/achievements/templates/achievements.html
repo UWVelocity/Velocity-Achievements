@@ -30,6 +30,7 @@
                 </div>
               </li>
               {% endfor %}
+              {% if show_nominate_link %}
               {% if not request.user or request.user != user %}
               <li>
               <a class="icon" href="{% url nominate participant_id=user.pk %}">
@@ -42,6 +43,7 @@
                     </div>
                 </a>
               </li>
+              {% endif %}
               {% endif %}
             </ul>
           </div>
