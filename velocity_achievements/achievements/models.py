@@ -154,6 +154,8 @@ class Nomination(models.Model):
         super(Nomination, self).clean()
         if self.participant_id and self.participant_id == self.nominator_id:
             raise ValidationError("Cannot nominate self.")
+        if not self.achievement.can_nominate:
+            raise ValidationError("This achievement does not accept nominations.")
         if Grant.objects.filter(achievement__pk = self.achievement_id,
                 participant__pk = self.participant_id, term = self.term):
             raise ValidationError("This person has already been given this achievement this term.")
