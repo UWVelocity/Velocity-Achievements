@@ -30,6 +30,7 @@ def on_change(model, field_name):
 class Achievement(models.Model):
     name = models.CharField(max_length = 128)
     description = models.CharField(max_length = 1024)
+    can_nominate = models.BooleanField(default=True)
 
     svg_file = models.FileField(upload_to = "achievements")
 
