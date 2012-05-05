@@ -134,7 +134,7 @@ class Nomination(models.Model):
     achievement = models.ForeignKey(Achievement)
     participant = models.ForeignKey(Participant)
     nominator = models.ForeignKey(Participant, related_name='+')
-    term = models.ForeignKey(Term, null=True, blank=True)
+    term = models.ForeignKey(Term, default=Term.current_term_key)
 
     def clean(self):
         super(Nomination, self).clean()
@@ -146,13 +146,13 @@ class Nomination(models.Model):
             raise ValidationError("Already nominated this person for this achievement.")
 
     class Meta:
-        unique_together = ('achievement', 'participant', 'nominator',)
+        unique_together = ('achievement', 'participant', 'nominator','term',)
 
 class Grant(models.Model):
     achievement = models.ForeignKey(Achievement)
     participant = models.ForeignKey(Participant)
     granted = models.DateTimeField(auto_now_add=True)
-    term = models.ForeignKey(Term,null=True,blank=True)
+    term = models.ForeignKey(Term, default=Term.current_term_key)
 
     def __unicode__(self):
         return "Grant %s to %s on %s" % (self.achievement_id, self.participant_id, self.granted)
@@ -162,4 +162,4 @@ class Grant(models.Model):
         return Participant.objects.filter(nomination__achievement = self.achievement, nomination__participant = self.participant)
 
     class Meta:
-        unique_together = ('achievement', 'participant')
+        unique_together = ('achievement', 'participant','term',)
