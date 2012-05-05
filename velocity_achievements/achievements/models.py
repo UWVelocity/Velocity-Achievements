@@ -130,6 +130,17 @@ class Term(models.Model):
 
     objects = TermManager()
 
+class TermDependentQuerySet(QuerySet):
+    def active(self):
+        return self.filter(term_id=Term.current_term_key())
+
+class TermDependentManager(models.Manager):
+    def get_query_set(self):
+        return TermDependentQuerySet(self.model)
+
+    def active(self):
+        return self.get_query_set().active()
+
 class Nomination(models.Model):
     achievement = models.ForeignKey(Achievement)
     participant = models.ForeignKey(Participant)
