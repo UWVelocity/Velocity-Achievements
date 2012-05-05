@@ -21,11 +21,14 @@ def achievements(request):
 class NominatePersonForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(NominatePersonForm, self).__init__(*args, **kwargs)
+        this_term = Term.current_term_key()
         self.fields['achievement'] = forms.ModelChoiceField(\
                 queryset = Achievement.objects.exclude(\
-                    grant__participant = self.instance.participant).exclude(\
+                    grant__participant = self.instance.participant,\
+                    grant__term = this_term).exclude(\
                     nomination__nominator = self.instance.nominator, \
-                    nomination__participant = self.instance.participant))
+                    nomination__participant = self.instance.participant, \
+                    nomination__term_id = this_term))
 
     class Meta:
         model = Nomination
