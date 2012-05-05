@@ -1,0 +1,23 @@
+{% load whitespace %}{% filter tidy_whitespace %}
+    In the past {% if days > 1 %}{{days}}{% endif %} day{{days|pluralize}}:
+
+    {% regroup grants by achievement as named_grants %}
+    {% for grant_group in named_grants %}
+        {% if grant_group.list|length > 5 %}
+            {{ grant_group.list|length }} people
+        {% else %}
+            {% for grant in grant_group.list|slice:':-2' %}
+                {{ grant.participant }},
+            {% endfor %}
+            {% for grant in grant_group.list|slice:'-1:-2' %}
+                {{ grant.participant }} and
+            {% endfor %}
+            {% with grant=grant_group.list|last %}
+                {{ grant.participant }}
+            {% endwith %}
+        {% endif %}
+        ha{{ grant_group.list|pluralize:"s,ve" }} earned the
+        {{ grant_group.grouper }} achievement.
+
+    {% endfor %}
+{% endfilter %}
