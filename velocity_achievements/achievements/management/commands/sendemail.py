@@ -27,6 +27,7 @@ class Command(NoArgsCommand):
             'participant': g.participant
             } for g in grants]
         message_body = render_to_string("email_update.txt", {
+                'days': delta.days,
                 'grants': achievement_data
             })
         email = EmailMessage('Velocity the Game Updates', 

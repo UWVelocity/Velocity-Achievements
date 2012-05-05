@@ -1,4 +1,6 @@
 {% load whitespace %}{% filter tidy_whitespace %}
+    In the past {% if days > 1 %}{{days}}{% endif %} day{{days|pluralize}}:
+
     {% regroup grants by achievement as named_grants %}
     {% for grant_group in named_grants %}
         {% if grant_group.list|length > 5 %}
