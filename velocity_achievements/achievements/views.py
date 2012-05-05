@@ -4,7 +4,7 @@ from django import forms
 from django.forms import ModelForm
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
-from models import Participant, Nomination, Achievement, Term
+from models import Participant, Nomination, Achievement, Grant, Term
 import itertools
 
 def achievements(request):
@@ -24,13 +24,17 @@ class NominatePersonForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(NominatePersonForm, self).__init__(*args, **kwargs)
         this_term = Term.current_term_key()
+        term_grants = Grant.objects.filter(\
+                participant = self.instance.participant,\
+                term = this_term)
+        term_user_nominations = Nomination.objects.filter(\
+                nominator = self.instance.nominator,
+                participant = self.instance.participant,
+                term = this_term)
         self.fields['achievement'] = forms.ModelChoiceField(\
                 queryset = Achievement.objects.exclude(\
-                    grant__participant = self.instance.participant,\
-                    grant__term = this_term).exclude(\
-                    nomination__nominator = self.instance.nominator, \
-                    nomination__participant = self.instance.participant, \
-                    nomination__term_id = this_term))
+                    grant__in = term_grants).exclude(\
+                    nomination__in = term_user_nominations))
 
     class Meta:
         model = Nomination
