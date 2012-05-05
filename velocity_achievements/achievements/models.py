@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.db.models.query import QuerySet
 from django.db.models.signals import pre_save, post_save
 from django.db import models
 from django.dispatch import receiver
@@ -7,6 +8,7 @@ from convert import svg_to_png
 import django.core.files.base as files
 from emailauth.models import UserWithEmail, UserWithEmailManager
 import tempfile
+import datetime
 
 def on_change(model, field_name):
     def callback(function):
@@ -78,7 +80,9 @@ class Participant(UserWithEmail):
 
     @property
     def achievements(self):
-        return Achievement.objects.filter(grant__participant = self).order_by("-grant__granted")
+        return Achievement.objects.filter(grant__participant = self,
+                grant__term_id = Term.current_term_key()
+                ).order_by("-grant__granted")
 
     @property
     def name(self):
@@ -91,27 +95,80 @@ class Participant(UserWithEmail):
 def add_level1_achievement(instance, **kwargs):
     instance.grant_set.get_or_create(achievement = Achievement.objects.get(name = "LEVEL 1"))
 
+term_choices = tuple(
+        ('%s%s' % (term[0], year), '%s %s' % (term[1], year))
+            for year in xrange(2011,2020)
+            for term in (('W','Winter',), ('S','Spring',), ('F','Fall',))
+        )
+
+class TermQuerySet(QuerySet):
+    def for_date(self,date):
+        return self.filter(term=Term.term_key_for_date(date))
+    def current(self):
+        return self.for_date(datetime.date.today())
+
+class TermManager(models.Manager):
+    def get_query_set(self):
+        return TermQuerySet(self.model)
+    def for_date(self,date):
+        return self.get_query_set().for_date(date)
+    def current(self):
+        return self.get_query_set().current()
+
+class Term(models.Model):
+    term = models.CharField(max_length=5, choices=term_choices, primary_key=True)
+
+    def __unicode__(self):
+        return self.get_term_display()
+
+    @classmethod
+    def term_key_for_date(cls,date):
+        t="WSF"[(date.month - 1)/4] # Math is magic
+        return t + str(date.year)
+
+    @classmethod
+    def current_term_key(cls):
+        return cls.term_key_for_date(datetime.date.today())
+
+    objects = TermManager()
+
+class TermDependentQuerySet(QuerySet):
+    def active(self):
+        return self.filter(term_id=Term.current_term_key())
+
+class TermDependentManager(models.Manager):
+    def get_query_set(self):
+        return TermDependentQuerySet(self.model)
+
+    def active(self):
+        return self.get_query_set().active()
+
 class Nomination(models.Model):
     achievement = models.ForeignKey(Achievement)
     participant = models.ForeignKey(Participant)
     nominator = models.ForeignKey(Participant, related_name='+')
+    term = models.ForeignKey(Term, default=Term.current_term_key)
 
     def clean(self):
         super(Nomination, self).clean()
         if self.participant_id and self.participant_id == self.nominator_id:
             raise ValidationError("Cannot nominate self.")
-        if Grant.objects.filter(achievement__pk = self.achievement_id, participant__pk = self.participant_id):
-            raise ValidationError("This person has already been given this achievement.")
-        if Nomination.objects.filter(achievement__pk = self.achievement_id, participant__pk = self.participant_id, nominator__pk = self.nominator_id).exclude(pk = self.pk).exists():
-            raise ValidationError("Already nominated this person for this achievement.")
+        if Grant.objects.filter(achievement__pk = self.achievement_id,
+                participant__pk = self.participant_id, term = self.term):
+            raise ValidationError("This person has already been given this achievement this term.")
+        if Nomination.objects.filter(achievement__pk = self.achievement_id, participant__pk = self.participant_id, nominator__pk = self.nominator_id, term = self.term).exclude(pk = self.pk).exists():
+            raise ValidationError("Already nominated this person for this achievement this term.")
 
     class Meta:
-        unique_together = ('achievement', 'participant', 'nominator',)
+        unique_together = ('achievement', 'participant', 'nominator','term',)
+
+    objects = TermDependentManager()
 
 class Grant(models.Model):
     achievement = models.ForeignKey(Achievement)
     participant = models.ForeignKey(Participant)
     granted = models.DateTimeField(auto_now_add=True)
+    term = models.ForeignKey(Term, default=Term.current_term_key)
 
     def __unicode__(self):
         return "Grant %s to %s on %s" % (self.achievement_id, self.participant_id, self.granted)
@@ -121,4 +178,6 @@ class Grant(models.Model):
         return Participant.objects.filter(nomination__achievement = self.achievement, nomination__participant = self.participant)
 
     class Meta:
-        unique_together = ('achievement', 'participant')
+        unique_together = ('achievement', 'participant','term',)
+
+    objects = TermDependentManager()
