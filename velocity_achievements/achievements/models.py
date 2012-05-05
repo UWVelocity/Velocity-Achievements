@@ -100,11 +100,8 @@ term_choices = tuple(
         )
 
 class TermQuerySet(QuerySet):
-    def term_key_for_date(self,date):
-        t="WSF"[(date.month - 1)/4] # Math is magic
-        return t + str(date.year)
     def for_date(self,date):
-        return self.filter(term=self.term_key_for_date(date))
+        return self.filter(term=Term.term_key_for_date(date))
     def current(self):
         return self.for_date(datetime.date.today())
 
@@ -121,6 +118,11 @@ class Term(models.Model):
 
     def __unicode__(self):
         return self.get_term_display()
+
+    @classmethod
+    def term_key_for_date(cls,date):
+        t="WSF"[(date.month - 1)/4] # Math is magic
+        return t + str(date.year)
 
     objects = TermManager()
 
