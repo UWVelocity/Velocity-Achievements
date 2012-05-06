@@ -78,6 +78,7 @@ class ParticipantManager(UserWithEmailManager):
 class Participant(UserWithEmail):
     objects = ParticipantManager()
     achievements = models.ManyToManyField(Achievement, through='Grant')
+    approved = models.BooleanField(default=False)
 
     @property
     def achievements(self):
