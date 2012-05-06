@@ -10,11 +10,11 @@
       <ul class="nominations">
         {% for nomination in nominations %}
         <li>
-          <p class="list-entry">
+          <span class="list-entry">
             {{ nomination.count }} for : {{ nomination.participant.name }},
             {{ nomination.achievement.name }}
             {% thumbnail nomination.achievement 30 30 %}
-          </p>
+          </span>
         </li>
         {% endfor %}
       </ul>
