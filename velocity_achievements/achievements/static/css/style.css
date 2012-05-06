@@ -157,6 +157,10 @@ body {
   list-style : none;
 }
 
+.nominations .list-entry, .nominations img {
+    vertical-align: middle;
+}
+
 .list-entry {
   margin : 10px 0;
 	padding : 0;
