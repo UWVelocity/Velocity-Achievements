@@ -13,11 +13,12 @@
         {% if is_admin %}
         <a href="{% url admin:achievements_grant_add %}?participant={{ nomination.participant.pk }}&achievement={{ nomination.achievement.pk }}">
         {% endif %}
-          <span class="list-entry">
-            {{ nomination.count }} for : {{ nomination.participant.name }},
-            {{ nomination.achievement.name }}
-          </span>
           {% thumbnail nomination.achievement 30 30 %}
+          <span class="list-entry">
+            {{ nomination.achievement.name }} &mdash;
+            {{ nomination.participant.name }} &mdash;
+            {{ nomination.count }} nomination{{ nomination.count.pluralize }}
+          </span>
           {% if is_admin %}
           </a>
           {% endif %}
