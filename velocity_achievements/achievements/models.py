@@ -150,6 +150,13 @@ class Nomination(models.Model):
     nominator = models.ForeignKey(Participant, related_name='+')
     term = models.ForeignKey(Term, default=Term.current_term_key)
 
+    def granted(self):
+        return bool(Grant.objects.filter(
+            term=self.term,
+            achievement=self.achievement,
+            participant=self.participant,
+            ))
+
     def clean(self):
         super(Nomination, self).clean()
         if self.participant_id and self.participant_id == self.nominator_id:
