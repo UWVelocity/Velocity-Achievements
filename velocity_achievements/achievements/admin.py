@@ -14,7 +14,13 @@ class ParticipantChangeForm(UserChangeForm):
 
 class ParticipantAdmin(UserAdmin):
     form = ParticipantChangeForm
-    list_display = ('email', 'first_name', 'last_name', 'is_staff', 'is_active')
+    list_display = ('email', 'first_name', 'last_name', 'is_staff', 'is_active', 'approved',)
+    fieldsets = UserAdmin.fieldsets[:2] + (('Participant info', {
+        'fields': ('approved',)
+        }),) + UserAdmin.fieldsets[2:]
+    list_editable = UserAdmin.list_editable + ('approved', 'is_active',)
+    list_filter = ('approved',) + UserAdmin.list_filter
+    ordering = ('-date_joined',)
 
 admin.site.register(Participant, ParticipantAdmin)
 
