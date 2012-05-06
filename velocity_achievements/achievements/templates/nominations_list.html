@@ -1,0 +1,23 @@
+{% extends 'base.html' %} 
+{% load thumbnails %}
+{% block title %}VELOCITY{% endblock %}
+{% block content %}
+  {% include "navigation.html" %}
+  <div id="all">
+    <div class="title">VELOCITY</div>
+    <div class="sub-title">TEST SUBJECTS</div>
+    <div class="list">
+      <ul class="nominations">
+        {% for nomination in nominations %}
+        <li>
+          <p class="list-entry">
+            {{ nomination.count }} for : {{ nomination.participant.name }},
+            {{ nomination.achievement.name }}
+            {% thumbnail nomination.achievement 30 30 %}
+          </p>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+{% endblock %}
