@@ -62,6 +62,7 @@ def nominate(request, participant_id):
 NominationTuple = namedtuple('NominationTuple', ('participant','achievement'))
 
 def nominations_list(request):
+    is_admin = request.user.is_staff
     granted = operator.methodcaller('granted')
     def nomination_tuple(nomination):
         return NominationTuple(nomination.participant, nomination.achievement)
@@ -75,4 +76,7 @@ def nominations_list(request):
             itertools.groupby(itertools.ifilterfalse(granted, nominations),
                 key=nomination_tuple))
     with_counts = sorted(with_counts, key = lambda n:n['count'], reverse=True)
-    return render(request, 'nominations_list.html', {'nominations':with_counts})
+    return render(request, 'nominations_list.html', {
+        'nominations':with_counts,
+        'is_admin':is_admin
+        })
