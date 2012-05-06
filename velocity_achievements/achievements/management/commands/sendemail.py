@@ -2,7 +2,7 @@ from django.core.mail import EmailMessage
 from django.core.management.base import NoArgsCommand, CommandError
 from django.template.loader import render_to_string
 from optparse import make_option
-from achievements.models import Grant, Participant
+from achievements.models import Grant, Participant, Term
 import datetime
 
 class Command(NoArgsCommand):
@@ -18,7 +18,8 @@ class Command(NoArgsCommand):
 
     def handle_noargs(self, **options):
         delta = datetime.timedelta(options['days'])
-        grants = Grant.objects.filter(granted__gte = datetime.datetime.now() - delta)\
+        grants = Grant.objects.filter(granted__gte = datetime.datetime.now() - delta,
+                term_id=Term.current_term_key())\
                 .order_by('achievement').select_related('achievement','participant')
         if not grants:
             self.stdout.write("No activity to summarize. Not sending anything\n")
