@@ -1,0 +1,29 @@
+{% extends 'base.html' %} 
+{% load thumbnails %}
+{% block title %}VELOCITY{% endblock %}
+{% block content %}
+  {% include "navigation.html" %}
+  <div id="all">
+    <div class="title">VELOCITY</div>
+    <div class="sub-title">NOMINATIONS</div>
+    <div class="list">
+      <ul class="nominations">
+        {% for nomination in nominations %}
+        <li>
+        {% if is_admin %}
+        <a href="{% url admin:achievements_grant_add %}?participant={{ nomination.participant.pk }}&achievement={{ nomination.achievement.pk }}">
+        {% endif %}
+          <span class="list-entry">
+            {{ nomination.count }} for : {{ nomination.participant.name }},
+            {{ nomination.achievement.name }}
+          </span>
+          {% thumbnail nomination.achievement 30 30 %}
+          {% if is_admin %}
+          </a>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+{% endblock %}

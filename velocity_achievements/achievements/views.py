@@ -2,10 +2,12 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Max
 from django import forms
 from django.forms import ModelForm
-from django.shortcuts import render_to_response, redirect, get_object_or_404
+from django.shortcuts import render, render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from models import Participant, Nomination, Achievement, Grant, Term
 import itertools
+import operator
+from collections import namedtuple
 
 def achievements(request):
     current_term = Term.current_term_key()
@@ -56,3 +58,25 @@ def nominate(request, participant_id):
     else:
         form = NominatePersonForm(instance = nomination)
     return render_to_response('nominate.html', {'form': form, 'participant': participant}, context_instance=RequestContext(request))
+
+NominationTuple = namedtuple('NominationTuple', ('participant','achievement'))
+
+def nominations_list(request):
+    is_admin = request.user.is_staff
+    granted = operator.methodcaller('granted')
+    def nomination_tuple(nomination):
+        return NominationTuple(nomination.participant, nomination.achievement)
+    def size_item((nomination, lst)):
+        nomination = dict(nomination.__dict__)
+        nomination['count'] = sum(1 for _ in lst)
+        return nomination
+    nominations = Nomination.objects.active()\
+            .order_by('participant','achievement')
+    with_counts = itertools.imap(size_item,
+            itertools.groupby(itertools.ifilterfalse(granted, nominations),
+                key=nomination_tuple))
+    with_counts = sorted(with_counts, key = lambda n:n['count'], reverse=True)
+    return render(request, 'nominations_list.html', {
+        'nominations':with_counts,
+        'is_admin':is_admin
+        })
