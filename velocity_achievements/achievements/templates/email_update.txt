@@ -15,4 +15,7 @@
         {% endwith %}
 
     {% endfor %}
+    The Enrichment Center is required to remind you that in the event that
+    you don't earn any achievements in a your remaining time with us, you
+    will be baked, and then there will be cake.
 {% endfilter %}
