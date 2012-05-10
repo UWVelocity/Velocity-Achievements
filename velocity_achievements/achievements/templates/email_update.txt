@@ -1,23 +1,18 @@
 {% load whitespace %}{% filter tidy_whitespace %}
     In the past {% if days > 1 %}{{days}}{% endif %} day{{days|pluralize}}:
 
-    {% regroup grants by achievement as named_grants %}
-    {% for grant_group in named_grants %}
-        {% if grant_group.list|length > 5 %}
-            {{ grant_group.list|length }} people
-        {% else %}
-            {% for grant in grant_group.list|slice:':-2' %}
-                {{ grant.participant }},
-            {% endfor %}
-            {% for grant in grant_group.list|slice:'-2:-1' %}
-                {{ grant.participant }} and
-            {% endfor %}
-            {% with grant=grant_group.list|last %}
-                {{ grant.participant }}
-            {% endwith %}
-        {% endif %}
-        ha{{ grant_group.list|pluralize:"s,ve" }} earned the
-        {{ grant_group.grouper }} achievement.
+    {% regroup grants by participant as earned_grants %}
+    {% for grant_group in earned_grants %}
+        {{ grant_group.grouper }} has earned
+        {% for grant in grant_group.list|slice:':-2' %}
+            {{ grant.achievement }},
+        {% endfor %}
+        {% for grant in grant_group.list|slice:'-2:-1' %}
+            {{ grant.achievement }} and
+        {% endfor %}
+        {% with grant=grant_group.list|last %}
+            {{ grant.achievement }}
+        {% endwith %}
 
     {% endfor %}
 {% endfilter %}
